@@ -1,0 +1,30 @@
+{
+    "queries_A": {
+        "1": {
+            "query": "SELECT count(\"PA_2_3_12\")/60 FROM \"07_a_menkiplc\" WHERE \"PA_2_3_12\" > 0.04 AND {str_day} ;",
+            "cell": "D",
+            "shift": "day",
+            "name": "A_operation_time_day"
+        },
+        "2": {
+            "query": "SELECT count(\"PA_2_3_12\")/60 FROM \"07_a_menkiplc\" WHERE \"PA_2_3_12\" > 0.04 AND {str_night} ;",
+            "cell": "E",
+            "shift": "night",
+            "name": "A_operation_time_night"
+        }
+    },
+    "queries_B": {
+        "1": {
+            "query": "SELECT count(\"PB_2_3_12\")/60 FROM \"08_b_menkiplc\" WHERE \"PB_2_3_12\" > 0.04 AND {str_day} ;",
+            "cell": "D",
+            "shift": "day",
+            "name": "B_operation_time_day"
+        },
+        "2": {
+            "query": "SELECT count(\"PB_2_3_12\")/60 FROM \"08_b_menkiplc\" WHERE \"PB_2_3_12\" > 0.04 AND {str_night} ;",
+            "cell": "E",
+            "shift": "night",
+            "name": "B_operation_time_night"
+        }          
+    }
+}

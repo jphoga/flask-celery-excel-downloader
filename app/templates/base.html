@@ -1,0 +1,30 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/utils.html" as utils %}
+
+{% block styles %}
+{{super()}} 
+  <link rel="stylesheet" href="{{url_for('static', filename='fontawesome/css/all.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='bootstrap-4.3.1-dist/css/bootstrap.min.css')}}">
+  <script src="{{url_for('static', filename='fontawesome/js/all.js')}}"></script>
+{% endblock %}
+{% block scripts %}
+  {{super()}}
+  <script src="{{url_for('static', filename='bootstrap-4.3.1-dist/js/bootstrap.js')}}"></script>
+  <script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+  </script>
+  {% block app_scripts %}{% endblock %}
+{% endblock %}
+
+{% block title %}
+    {% if title %}{{ title }} - Downloader {% else %}Welcome to the Downloader{% endif %}
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="container">
+        {{utils.flashed_messages(container=False, dismissible=True)}}
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}
