@@ -1,5 +1,9 @@
 # How to setup the report downloader app
 
+This manual describes how to setup the flask app, the celery worker and a redis server on a linux system.
+I used an AWS ec2-instance (Amazon-Linux) but other linux distributions should work the same (or similar).
+
+
 ## Clone project and move into the project root folder
 Set up a virtual environment and activate it.
 	
@@ -32,7 +36,6 @@ and enter below information:
 ## Add a folder "certs" to root of app and create self-signed certificates.
 	 $ mkdir certs
 	 $ cd certs
-
 	 $ openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
 
 ## Add gunicorn and set up service to start app.
