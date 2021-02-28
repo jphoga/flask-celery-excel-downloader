@@ -1,7 +1,7 @@
 # How to setup the report downloader app
 
-This manual describes how to setup the flask app, the celery worker and a redis server on a linux system.
-I used an AWS ec2-instance (Amazon-Linux) but other linux distributions should work the same (or similar).
+This manual describes how to setup the flask app, the celery worker and a redis server on a Linux system.
+I used an AWS ec2-instance (Amazon-Linux) but other Linux distributions should work the same (or similar).
 
 
 ## Clone project and move into the project root folder
