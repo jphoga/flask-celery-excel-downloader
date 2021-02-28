@@ -1,4 +1,4 @@
-How to setup the report downloader app:
+## How to setup the report downloader app:
 
 1) Clone project and set up virtual environment
 $ python3 -m venv venv
