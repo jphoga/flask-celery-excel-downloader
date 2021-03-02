@@ -13,11 +13,9 @@ For the purpose of this repository I simplified the whole backend so that the ap
 
 See below for instructions on how to set up the app including a Redis server as message broker. 
 
-# How to setup the report downloader app
+# How to setup the report downloader app on localhost
 
-This manual describes how to setup the flask app, the celery worker and a Redis server on a Linux system.
-I used an AWS ec2-instance (Amazon-Linux) but other Linux distributions should work the same (or similar).
-
+This manual describes how to setup the flask app, the celery worker and a Redis server on localhost for macOS but it can also be used to run it on Windows.
 
 ## Clone project and move into the project root folder to set up a virtual environment
 	
@@ -30,7 +28,7 @@ I used an AWS ec2-instance (Amazon-Linux) but other Linux distributions should w
 
 	$ pip install -r requirements.txt
 
-## Create a .env file (this should not be committed)
+## Create an .env file (this should not be committed)
 	
 	$ touch .env
 	$ vim .env
@@ -44,15 +42,33 @@ and enter below information (choose a secret-key to your liking):
 
 ## Add environment variables to linux
 
-	$ echo "export FLASK_APP=report_downloader.py" >> ~/.bashrc
 	$ export FLASK_APP=report_downloader.py
 	$ export FLASK_ENV=production
 
-## Add a folder "certs" to root of the app and create self-signed certificates
+## Install and start a redis server for macOS
 
-	 $ mkdir certs
-	 $ cd certs
-	 $ openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
+	$ brew update
+	$ brew install redis
+	$ brew services start redis
+
+## Start a celery worker by following command
+
+### for Windows (eventlet is needed):
+
+    celery -A celery-worker.celery worker --loglevel=INFO -P eventlet
+	
+### for maxOS & Linux:
+
+    celery -A celery-worker.celery worker --loglevel=INFO
+
+Now open [localhost:5000](http://localhost:5000/) and try to download one of the reports.
+
+
+
+# How to setup the report downloader app on an Ec2 instance for production
+
+In case you want to run the app in a production setting you can find the additional setup below.
+If you followed the manual until now, proceed with below steps to setup a server and the necessary services.
 
 ## Add gunicorn and set up service to start app
 
@@ -126,16 +142,6 @@ https://shawn-shi.medium.com/how-to-install-redis-on-ec2-server-for-fast-in-memo
 	$ sudo systemctl enable redis.service
 	$ sudo systemctl start redis.service
 	$ sudo systemctl status redis.service
-
-## Start a celery worker by following command
-
-### for Windows (eventlet is needed):
-
-    celery -A celery-worker.celery worker --loglevel=INFO -P eventlet
-	
-### for Linux:
-
-    celery -A celery-worker.celery worker --loglevel=INFO
 
 ## Add report-downloader-celery-worker.service:
 
