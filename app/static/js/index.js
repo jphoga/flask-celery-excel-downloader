@@ -1,14 +1,15 @@
 /* 
     runs after report-download button is clicked
 */
-function download_report(task_type) {
+function download_report(task_length) {
     // add task status elements
+    debugger;
     div = $('<div class="progress_report"><div></div><div id="percentage">0%</div><div id="task-desc"></div><div></div><div id="filename">&nbsp;</div></div><hr>');
     $('#progress').empty();
     $('#progress').append(div);
 
     // create a progress bar
-    var nanobar = new Nanobar({
+    const nanobar = new Nanobar({
         classname: 'my-nanobar-class',
         id: 'my-nanobar-id',
         // bg: '#38f',
@@ -16,13 +17,14 @@ function download_report(task_type) {
         target: div[0].childNodes[0]
     });
 
-    const data ={'task_type': task_type}
+    const data ={'task_length': task_length}
     // send ajax POST request to start background job
     $.ajax({
         type: 'POST',
         url: '/report-downloader/_run_task/',
         data: data,
         success: function (data, status, request) {
+            debugger;
             status_url = request.getResponseHeader('Location');
             update_progress(status_url, nanobar, div[0]);
         },
