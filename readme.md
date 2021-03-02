@@ -15,30 +15,30 @@ See below for instructions on how to set up the app including a Redis server as 
 
 # How to setup the report downloader app
 
-This manual describes how to setup the flask app, the celery worker and a redis server on a Linux system.
+This manual describes how to setup the flask app, the celery worker and a Redis server on a Linux system.
 I used an AWS ec2-instance (Amazon-Linux) but other Linux distributions should work the same (or similar).
 
 
-## Clone project and move into the project root folder
-Set up a virtual environment and activate it.
+## Clone project and move into the project root folder to set up a virtual environment
 	
+	$ cd <project-folder-name>
 	$ python3 -m venv venv
 	$ source venv/bin/activate
 
 
-## Install all requirements.
+## Install all requirements
 
 	$ pip install -r requirements.txt
 
-## Create a .env file (this should not be commited)
+## Create a .env file (this should not be committed)
 	
 	$ touch .env
 	$ vim .env
 
-and enter below information:
+and enter below information (choose a secret-key to your liking):
 	
 	FLASK_APP=report_downloader.py
-	SECRET_KEY=<create secret key>
+	SECRET_KEY=<create secret key> 
 	CELERY_BROKER_URL='redis://localhost:6379/0'
 	CELERY_RESULT_BACKEND='redis://localhost:6379/0'
 
@@ -48,17 +48,19 @@ and enter below information:
 	$ export FLASK_APP=report_downloader.py
 	$ export FLASK_ENV=production
 
-## Add a folder "certs" to root of app and create self-signed certificates.
+## Add a folder "certs" to root of the app and create self-signed certificates
+
 	 $ mkdir certs
 	 $ cd certs
 	 $ openssl req -x509 -newkey rsa:4096 -nodes -out cert.pem -keyout key.pem -days 365
 
-## Add gunicorn and set up service to start app.
+## Add gunicorn and set up service to start app
 
 	(venv) $ pip install gunicorn
 	(venv) $ gunicorn -b localhost:8000 -w 4 <module-name>:<app-name>
 
 ## Add below "excelreport.service" file to /etc/systemd/system/ folder (advanced)
+
 	[Unit]
 	Description=Report Downloader
 	After=network.target
@@ -76,10 +78,10 @@ and enter below information:
 	WantedBy=multi-user.target
 
 ## Enable, start and check status of service
+
 	$ sudo systemctl enable excelreport.service
 	$ sudo systemctl start excelreport.service
 	$ sudo systemctl status excelreport.service
-
 
 ## Add nginx to reach app via HTTPS
 ### Check below awesome blog-post from Miguel Grinberg for a how-to:
@@ -90,6 +92,7 @@ https://blog.miguelgrinberg.com/post/running-your-flask-application-over-https
 https://shawn-shi.medium.com/how-to-install-redis-on-ec2-server-for-fast-in-memory-database-f30c3ef8c35e
 
 ### In short run below commands:
+
 	$ sudo yum -y install gcc make # install GCC compiler
 	$ cd /usr/local/src
 	$ sudo wget http://download.redis.io/redis-stable.tar.gz
@@ -105,6 +108,7 @@ https://shawn-shi.medium.com/how-to-install-redis-on-ec2-server-for-fast-in-memo
 	$ sudo cp src/redis-cli /usr/local/bin/
 
 ## And add a redis.service file to /etc/systemd/system/
+
 	[Unit]
 	Description=Redis
 	After=syslog.target
@@ -116,16 +120,25 @@ https://shawn-shi.medium.com/how-to-install-redis-on-ec2-server-for-fast-in-memo
 
 	[Install]
 	WantedBy=multi-user.target
+	
+## Enable, start and check status of service
+
+	$ sudo systemctl enable redis.service
+	$ sudo systemctl start redis.service
+	$ sudo systemctl status redis.service
 
 ## Start a celery worker by following command
 
 ### for Windows (eventlet is needed):
+
     celery -A celery-worker.celery worker --loglevel=INFO -P eventlet
 	
 ### for Linux:
+
     celery -A celery-worker.celery worker --loglevel=INFO
 
 ## Add report-downloader-celery-worker.service:
+
 	[Unit]
 	Description=Report Downloader
 	After=network.target
@@ -142,7 +155,12 @@ https://shawn-shi.medium.com/how-to-install-redis-on-ec2-server-for-fast-in-memo
 	[Install]
 	WantedBy=multi-user.target
 
-Change INFO to DEBUG in case you want a detailed output log.
+## Enable, start and check status of service
+
+	$ sudo systemctl enable report-downloader-celery-worker.service
+	$ sudo systemctl start report-downloader-celery-worker.service
+	$ sudo systemctl status report-downloader-celery-worker.service
+
 
 ### Happy downloading!
 
