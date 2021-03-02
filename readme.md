@@ -3,13 +3,15 @@
 
 # Flask app to download excel file while showing task-progress
 
-I had the task of creating a small app for users to download an excel report to the local PC. Since the excel report had to be created dynamically in the backend by querying the database about 30 times on average (which would take about 20-30 seconds), the app should show a progress-bar to the users which would get updated every few seconds. 
+I had the task of creating a small app for users to download an excel report to their local PC. Since the excel report had to be created dynamically by querying the database about 30 times on average (which would take about 20-30 seconds), the app should show a progress-bar to the users which would get updated every few seconds. 
 
-This means that report-creation process must be independent of the current app process or otherwise the app would just stop working until the download is completed. I used the popular library [Celery](https://docs.celeryproject.org/en/stable/) to create a so-called "worker" who runs the task of creating the report in the background.
+The report-creation process must be independent of the current app process or otherwise the app would just stop working until the download is completed. To realize this I used the popular library [Celery](https://docs.celeryproject.org/en/stable/) where you can create a so-called "worker" who runs longer tasks in the background.
 
 Celery can send status updates of its current task to the frontend where the progress bar can be updated quite simply. I chose the lightweight library [Nanobar](https://nanobar.jacoborus.codes/) to show a pretty and engaging progress bar fill up while the user is waiting for the download to complete.  
 
 For the purpose of this repository I simplified the whole backend so that the app gives you a choice to download either a short report (3 seconds) or a long report (6 seconds). The report consists of todays date with a random int value. In a real application you would fill up your excel-file with data send back by querying your database. 
+
+See below for instructions on how to set up the app including a Redis server as message broker. 
 
 # How to setup the report downloader app
 
