@@ -1,4 +1,6 @@
-
+/* 
+    runs after report-download button is clicked
+*/
 function download_report(task_type) {
     // add task status elements
     div = $('<div class="progress_report"><div></div><div id="percentage">0%</div><div id="task-desc"></div><div></div><div id="filename">&nbsp;</div></div><hr>');
@@ -20,7 +22,7 @@ function download_report(task_type) {
         type: 'POST',
         url: '/report-downloader/_run_task/',
         data: data,
-        success: function(data, status, request) {
+        success: function (data, status, request) {
             status_url = request.getResponseHeader('Location');
             update_progress(status_url, nanobar, div[0]);
         },
@@ -89,6 +91,7 @@ function downloadFileToBrowser(result) {
   xhr.send()
 }
 
+// set current date to screen at page load
 $(function () {
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
