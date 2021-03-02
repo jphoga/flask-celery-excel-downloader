@@ -55,11 +55,12 @@ and enter below information (choose a secret-key to your liking):
 
 ### for Windows (eventlet is needed):
 
-    celery -A celery-worker.celery worker --loglevel=INFO -P eventlet
+	$ pip install -U eventlet
+    	$ celery -A celery-worker.celery worker --loglevel=INFO -P eventlet
 	
 ### for maxOS & Linux:
 
-    celery -A celery-worker.celery worker --loglevel=INFO
+    	$ celery -A celery-worker.celery worker --loglevel=INFO
 
 Now open [localhost:5000](http://localhost:5000/) and try to download one of the reports.
 
