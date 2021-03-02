@@ -2,19 +2,19 @@
     runs after report-download button is clicked
 */
 function download_report(task_length) {
-    // add task status elements
-    debugger;
-    div = $('<div class="progress_report"><div></div><div id="percentage">0%</div><div id="task-desc"></div><div></div><div id="filename">&nbsp;</div></div><hr>');
-    $('#progress').empty();
-    $('#progress').append(div);
-
-    // create a progress bar
+    // get elements needed to update progress bar and status
+    const progressReportContainer = document.getElementsByClassName("progress_report")[0]
+    const progressBar = document.getElementById("progress_bar")
+    const percentage = document.getElementById("percentage")
+    // reset progress bar and percentage
+    progressBar.innerText = "";
+    percentage.innerText = "0%";
+    // create a progress bar instance
     const nanobar = new Nanobar({
         classname: 'my-nanobar-class',
         id: 'my-nanobar-id',
-        // bg: '#38f',
         bg: '#E7FF4E',
-        target: div[0].childNodes[0]
+        target: progressBar
     });
 
     const data ={'task_length': task_length}
@@ -24,12 +24,10 @@ function download_report(task_length) {
         url: '/report-downloader/_run_task/',
         data: data,
         success: function (data, status, request) {
-            debugger;
-            status_url = request.getResponseHeader('Location');
-            update_progress(status_url, nanobar, div[0]);
+            const status_url = request.getResponseHeader('Location');
+            update_progress(status_url, nanobar, progressReportContainer);
         },
         error: function() {
-
             console.log('Unexpected error');
         }
     });
@@ -39,17 +37,13 @@ function update_progress(status_url, nanobar, status_div) {
     // send GET request to status URL
     $.getJSON(status_url, function(data) {
         // update UI
-        console.log("data below:")
-        console.log(data)
         percent = parseInt(data['current'] * 100 / data['total']);
         nanobar.go(percent);
-        $(status_div.childNodes[1]).text(percent + '%');
-        $(status_div.childNodes[2]).text(data['status']);
+        status_div.childNodes[3].innerText = percent + '%';
+        status_div.childNodes[5].innerText = data['status'];
         if (data['state'] != 'PENDING' && data['state'] != 'PROGRESS') {
             if ('result' in data) {
                 // show result
-                // $(status_div.childNodes[3]).text('Result: ' + data['result']);
-                // $(status_div.childNodes[4]).text('Filename: ' + data['filename']);
                 downloadFileToBrowser(data['result']);
                 setTimeout(function(){ 
                     $('#bounce').css('-moz-animation', 'bounce 0s infinite ease');
@@ -62,7 +56,6 @@ function update_progress(status_url, nanobar, status_div) {
             }
             else {
                 // something unexpected happened
-                // $(status_div.childNodes[3]).text('Result: ' + data['result']);
                 $(status_div.childNodes[4]).text('Filename: ' + data['filename']);
             }
         }
@@ -94,7 +87,7 @@ function downloadFileToBrowser(result) {
 }
 
 // set current date to screen at page load
-$(function () {
+
     var today = new Date();
     var dd = String(today.getDate()).padStart(2, '0');
     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -102,4 +95,4 @@ $(function () {
 
     today = mm + '/' + dd + '/' + yyyy;
     $('h1').html("Download report for " + today);
-});
+

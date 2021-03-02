@@ -1,5 +1,5 @@
 {
-  "python.pythonPath": "c:\\Users\\jhoga\\git\\excel-downloader\\venv\\Scripts\\python.exe",
+  "python.pythonPath": "venv/bin/python",
   "workbench.colorCustomizations": {
     "activityBar.activeBackground": "#fa1b49",
     "activityBar.activeBorder": "#155e02",
