@@ -1,4 +1,4 @@
-# A Flask app sending feedback about a background task to the client
+# Flask app to download excel file as background task
 
 I had the task of creating a small app for users to download an excel report to the local PC. Since the excel report had to be created dynamically in the backend by querying the database about 30 times on average (which would take about 20-30 seconds), the app should show a progress-bar to the users which would get updated every few seconds. 
 
@@ -8,7 +8,7 @@ Celery can send status updates of its current task to the frontend where the pro
 
 For the purpose of this repository I simplified the whole backend so that the app gives you a choice to download either a short report (3 seconds) or a long report (6 seconds). The report consists of todays date with a random int value. In a real application you would fill up your excel-file with data send back by querying your database. 
 
-![download-screen](https://github.com/jphoga/flask-celery-excel-downloader/blob/main/downloader-screen.jpg?raw=true)
+![download-screen](https://github.com/jphoga/flask-celery-excel-downloader/blob/main/download-screen.jpg?raw=true)
 
 # How to setup the report downloader app
 
