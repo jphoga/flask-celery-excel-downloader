@@ -40,7 +40,7 @@ and enter below information (choose a secret-key to your liking):
 	CELERY_BROKER_URL='redis://localhost:6379/0'
 	CELERY_RESULT_BACKEND='redis://localhost:6379/0'
 
-## Add environment variables to linux
+## Add environment variables
 
 	$ export FLASK_APP=report_downloader.py
 	$ export FLASK_ENV=production
