@@ -22,6 +22,7 @@ This manual describes how to setup the flask app, the celery worker and a Redis 
 	$ cd <project-folder-name>
 	$ python3 -m venv venv
 	$ source venv/bin/activate
+	$ mkdir reports
 
 
 ## Install all requirements
