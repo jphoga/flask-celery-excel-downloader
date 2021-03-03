@@ -65,7 +65,7 @@ If you are using Windows just download redis from [here](https://redislabs.com/e
 In case of Windows the eventlet library is needed (this is just for development/test purposes, don't use celery on Windows for production):
 
 	$ pip install -U eventlet
-    	$ celery -A celery-worker.celery worker --loglevel=INFO -P eventlet
+    $ celery -A celery-worker.celery worker --loglevel=INFO -P eventlet
 
 
 Now open [localhost:5000](http://localhost:5000/) and try to download one of the reports.
