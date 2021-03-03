@@ -82,7 +82,7 @@ If you followed the manual until now, proceed with below steps to setup a server
 	(venv) $ pip install gunicorn
 	(venv) $ gunicorn -b localhost:8000 -w 4 <module-name>:<app-name>
 
-## Add below "excelreport.service" file to /etc/systemd/system/ folder (fill in <app-name> with the name of your app)
+## Add below "excelreport.service" file to /etc/systemd/system/ folder (fill in "app-name" with the name of your app)
 
 	[Unit]
 	Description=Report Downloader
@@ -150,7 +150,7 @@ https://shawn-shi.medium.com/how-to-install-redis-on-ec2-server-for-fast-in-memo
 	$ sudo systemctl start redis.service
 	$ sudo systemctl status redis.service
 
-## Add report-downloader-celery-worker.service (fill in <app-name> with the name of your app):
+## Add report-downloader-celery-worker.service (fill in "app-name" with the name of your app):
 
 	[Unit]
 	Description=Report Downloader
