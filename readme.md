@@ -15,14 +15,18 @@ See below for instructions on how to set up the app including a Redis server as 
 
 # How to setup the report downloader app on localhost
 
-This manual describes how to setup the flask app, the celery worker and a Redis server on localhost for macOS but it can also be used to run it on Windows.
+This manual describes how to setup the flask app, the celery worker and a Redis server on localhost for macOS/linux but it can also be used to run it on Windows (the commands differ of course but the tasks are nearly the same).
 
 ## Clone project and move into the project root folder to set up a virtual environment
 	
 	$ cd <project-folder-name>
+	$ mkdir reports
 	$ python3 -m venv venv
 	$ source venv/bin/activate
-	$ mkdir reports
+
+To activate the virtual environment on Windows type the following:
+	
+	venv/Scripts/activate
 
 
 ## Install all requirements
@@ -51,17 +55,18 @@ and enter below information (choose a secret-key to your liking):
 	$ brew update
 	$ brew install redis
 	$ brew services start redis
+	
+If you are using Windows just download redis from [here](https://redislabs.com/ebook/appendix-a/a-3-installing-on-windows/a-3-2-installing-redis-on-window/) and follow the instructions.
 
 ## Start a celery worker by following command
-
-### for Windows (eventlet is needed):
+	
+    $ celery -A celery-worker.celery worker --loglevel=INFO
+    
+In case of Windows the eventlet library is needed (this is just for development/test purposes, don't use celery on Windows for production):
 
 	$ pip install -U eventlet
     	$ celery -A celery-worker.celery worker --loglevel=INFO -P eventlet
-	
-### for maxOS & Linux:
 
-    	$ celery -A celery-worker.celery worker --loglevel=INFO
 
 Now open [localhost:5000](http://localhost:5000/) and try to download one of the reports.
 
