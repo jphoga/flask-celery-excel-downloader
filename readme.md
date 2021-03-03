@@ -82,7 +82,7 @@ If you followed the manual until now, proceed with below steps to setup a server
 	(venv) $ pip install gunicorn
 	(venv) $ gunicorn -b localhost:8000 -w 4 <module-name>:<app-name>
 
-## Add below "excelreport.service" file to /etc/systemd/system/ folder (advanced)
+## Add below "excelreport.service" file to /etc/systemd/system/ folder (fill in <app-name> with the name of your app)
 
 	[Unit]
 	Description=Report Downloader
@@ -92,9 +92,9 @@ If you followed the manual until now, proceed with below steps to setup a server
 	[Service]
 	Type=simple
 	Restart=always
-	WorkingDirectory=/home/ec2-user/maruchan-report-downloader-app/
+	WorkingDirectory=/home/ec2-user/<app-name>/
 	RestartSec=1
-	ExecStart=/home/ec2-user/maruchan-report-downloader-app/venv/bin/gunicorn -b  
+	ExecStart=/home/ec2-user/<app-name>/venv/bin/gunicorn -b  
 	localhost:8000 -w 4 report_downloader:report_downloader
 
 	[Install]
@@ -150,7 +150,7 @@ https://shawn-shi.medium.com/how-to-install-redis-on-ec2-server-for-fast-in-memo
 	$ sudo systemctl start redis.service
 	$ sudo systemctl status redis.service
 
-## Add report-downloader-celery-worker.service:
+## Add report-downloader-celery-worker.service (fill in <app-name> with the name of your app):
 
 	[Unit]
 	Description=Report Downloader
@@ -160,9 +160,9 @@ https://shawn-shi.medium.com/how-to-install-redis-on-ec2-server-for-fast-in-memo
 	[Service]
 	Type=simple
 	Restart=always
-	WorkingDirectory=/home/ec2-user/maruchan-report-downloader-app/
+	WorkingDirectory=/home/ec2-user/<app-name>/
 	RestartSec=1
-	ExecStart=/home/ec2-user/maruchan-report-downloader-app/venv/bin/celery -A 
+	ExecStart=/home/ec2-user/<app-name>/venv/bin/celery -A 
 	celery-worker.celery worker --loglevel=INFO
 
 	[Install]
