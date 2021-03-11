@@ -1,7 +1,7 @@
 ![download-screen](https://github.com/jphoga/flask-celery-excel-downloader/blob/main/download-long-report.gif?raw=true)
 
 
-# Flask app to download excel file while showing task-progress
+# Flask app to download excel with progress bar
 
 I had the task of creating a small app for users to download an excel report to their local PC. Since the excel report had to be created dynamically by querying the database about 30 times on average (which would take about 20-30 seconds), the app should show a progress-bar to the users which would get updated every few seconds. 
 
