@@ -1,4 +1,4 @@
-![download-screen](https://github.com/jphoga/flask-celery-excel-downloader/blob/main/download-screen.jpg?raw=true)
+![download-screen](https://github.com/jphoga/flask-celery-excel-downloader/blob/main/download-long-report.gif?raw=true)
 
 
 # Flask app to download excel file while showing task-progress
