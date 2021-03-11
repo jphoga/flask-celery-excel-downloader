@@ -3,11 +3,11 @@
 
 # Flask app to download excel with progress bar
 
-I had the task of creating a small app for users to download an excel report to their local PC. Since the excel report had to be created dynamically by querying the database about 30 times on average (which would take about 20-30 seconds), the app should show a progress-bar to the users which would get updated every few seconds. 
+I had the task of creating a small app for users to download an excel report to their local PC. Since the excel report had to be created dynamically by querying the database about 30 times on average (which would take about 20-30 seconds), the app should show a progress bar to the users which would get updated every few seconds. 
 
-I used the popular library [Celery](https://docs.celeryproject.org/en/stable/) to runs longer tasks in the background and the the lightweight library [Nanobar](https://nanobar.jacoborus.codes/) to show a pretty and engaging progress bar fill up while the user is waiting for the download to complete.  
+I used the popular library [Celery](https://docs.celeryproject.org/en/stable/) to run longer tasks in the background and the lightweight library [Nanobar](https://nanobar.jacoborus.codes/) to show a pretty and engaging progress bar fill up while the user is waiting for the download to complete.  
 
-I simplified the whole backend so that the app gives you a choice to download either a short report (3 seconds) or a long report (6 seconds). The report consists of todays date with a random int value. In a real application you would fill up your excel-file with data send back by querying your database. 
+I simplified the whole backend so that the app gives you a choice to download either a short report (3 seconds) or a long report (6 seconds). This mock-report consists of todays date with a random int value. 
 
 See below for instructions on how to set up the app including a Redis server as message broker. 
 
