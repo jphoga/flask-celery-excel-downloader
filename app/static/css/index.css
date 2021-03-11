@@ -1,6 +1,5 @@
-/* 
-    General 
-*/
+/* General */
+
 html {
     height: 100%;
 }
@@ -28,9 +27,7 @@ hr {
     border-top: none !important;
 }
 
-/* 
-    Classes & id's 
-*/
+/* Classes & id's */
 
 .container {
     padding: 0;
@@ -42,6 +39,10 @@ hr {
     margin-top: 9rem;
     padding-bottom: 8rem;
     text-align: center;
+}
+
+.progress_report {
+    height: 13rem;
 }
 
 #my-nanobar-id {
@@ -117,7 +118,7 @@ hr {
 }
 
 .select-report-title {
-    font-size: 16px;
+    font-size: 24px;
 }
 
 .download-button {
@@ -126,6 +127,13 @@ hr {
     height: 4rem;
     margin: 1rem;
     font-size: 18px;
+    color: #323D57;
+    border: solid 1px #EFEFEF;
+}
+
+.download-button:hover {
+    background-color: #323D57;
+    color: #EFEFEF;
 }
 
 /* Show bouncing arrow at bottom left corner when download is finished */
@@ -144,7 +152,6 @@ hr {
     margin: auto;
     bottom: -50rem;
     left: 10rem;
-    /* right: 0; */
     border-right: 8px solid #E7FF4E;
     border-bottom: 8px solid #E7FF4E;
     -webkit-transform: rotate(45deg);

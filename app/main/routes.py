@@ -16,18 +16,23 @@ def index():
 # prepare celery task after pressing button on frontend
 @bp.route("/report-downloader/_run_task/", methods=['POST'])
 def run_task():
-    # task_length value decides how many seconds task will run in the background
-    task_length = request.form['task_length']
-    task_length = int(task_length)
+
+    # task_length -> how many seconds task will run
+    req = request.get_json()
+    task_length = int(req['task_length'])
+
+    # add todays date to report
     root_path = current_app.root_path
     today = date.today().strftime('%Y-%m-%d')
+    
     # start celery task
     task = download_async_report.delay(task_length, root_path, today)
-    return jsonify({}), 202, {'Location': url_for('main.taskstatus', task_id=task.id)}
+    return jsonify({'Location': url_for('main.taskstatus', task_id=task.id)}) 
 
 
 @celery.task(bind=True)
 def download_async_report(self, task_length, root_path, today):
+
     # random value to set into dummy report 
     rand_int = random.randint(1,1000)
     
@@ -49,9 +54,9 @@ def download_async_report(self, task_length, root_path, today):
                                                     'total': task_length,
                                                     'status': 'Downloading...'})
 
-    # random hash value is needed to make excel-filename unique
+    # random hash value to make excel-filename unique
     hash = random.getrandbits(16)
-    filename = "production_report_" + today + "_" + str(hash) + ".xlsx"
+    filename = f"production_report_{today}_{str(hash)}.xlsx"
     filepath = os.path.join(root_path, 'reports', filename)
     wb.save(filepath)
         
@@ -64,8 +69,10 @@ def download_async_report(self, task_length, root_path, today):
 
 @bp.route('/status/<task_id>')
 def taskstatus(task_id):
+
     # check status of currently running task 
     task = download_async_report.AsyncResult(task_id)
+    
     # pending state means not yet started
     if task.state == 'PENDING':
         response = {
@@ -99,8 +106,11 @@ def taskstatus(task_id):
 # excel file download to browser
 @bp.route('/_downloadfile/', methods=['POST','GET'])
 def downloadfile():
+    
+    # filepath of file to download is send to client
     filename = request.args.get('filename')
     filepath = os.path.join(current_app.root_path, 'reports', filename)
+    
     try:
         return send_file(
             filepath,

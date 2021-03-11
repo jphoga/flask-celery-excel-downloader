@@ -2,29 +2,22 @@
 {% import "bootstrap/utils.html" as utils %}
 
 {% block styles %}
-{{super()}} 
+  {{super()}} 
   <link rel="stylesheet" href="{{url_for('static', filename='fontawesome/css/all.css')}}">
-  <link rel="stylesheet" href="{{url_for('static', filename='bootstrap-4.3.1-dist/css/bootstrap.min.css')}}">
-  <script src="{{url_for('static', filename='fontawesome/js/all.js')}}"></script>
-{% endblock %}
-{% block scripts %}
-  {{super()}}
-  <script src="{{url_for('static', filename='bootstrap-4.3.1-dist/js/bootstrap.js')}}"></script>
-  <script type=text/javascript>
-    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-  </script>
-  {% block app_scripts %}{% endblock %}
+  <link rel="stylesheet" href="{{url_for('static', filename='css/index.css')}}">
 {% endblock %}
 
 {% block title %}
-    {% if title %}{{ title }} - Downloader {% else %}Welcome to the Downloader{% endif %}
+  Welcome to the Downloader
 {% endblock %}
 
-
-
 {% block content %}
-    <div class="container">
-        {{utils.flashed_messages(container=False, dismissible=True)}}
-        {% block app_content %}{% endblock %}
-    </div>
+  <div class="container">
+    {% block app_content %}{% endblock %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/nanobar-master/nanobar.js') }}"></script>
 {% endblock %}
