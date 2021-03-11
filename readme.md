@@ -5,11 +5,9 @@
 
 I had the task of creating a small app for users to download an excel report to their local PC. Since the excel report had to be created dynamically by querying the database about 30 times on average (which would take about 20-30 seconds), the app should show a progress-bar to the users which would get updated every few seconds. 
 
-The report-creation process must be independent of the current app process or otherwise the app would just stop working until the download is completed. To realize this I used the popular library [Celery](https://docs.celeryproject.org/en/stable/) where you can create a so-called "worker" who runs longer tasks in the background.
+I used the popular library [Celery](https://docs.celeryproject.org/en/stable/) to runs longer tasks in the background and the the lightweight library [Nanobar](https://nanobar.jacoborus.codes/) to show a pretty and engaging progress bar fill up while the user is waiting for the download to complete.  
 
-Celery can send status updates of its current task to the frontend where the progress bar can be updated quite simply. I chose the lightweight library [Nanobar](https://nanobar.jacoborus.codes/) to show a pretty and engaging progress bar fill up while the user is waiting for the download to complete.  
-
-For the purpose of this repository I simplified the whole backend so that the app gives you a choice to download either a short report (3 seconds) or a long report (6 seconds). The report consists of todays date with a random int value. In a real application you would fill up your excel-file with data send back by querying your database. 
+I simplified the whole backend so that the app gives you a choice to download either a short report (3 seconds) or a long report (6 seconds). The report consists of todays date with a random int value. In a real application you would fill up your excel-file with data send back by querying your database. 
 
 See below for instructions on how to set up the app including a Redis server as message broker. 
 
@@ -17,10 +15,9 @@ See below for instructions on how to set up the app including a Redis server as 
 
 This manual describes how to setup the flask app, the celery worker and a Redis server on localhost for macOS/linux but it can also be used to run it on Windows (the commands differ of course but the tasks are nearly the same).
 
-## Clone project and move into the project root folder to set up a virtual environment
+## Clone project and set up a virtual environment
 	
 	$ cd <project-folder-name>
-	$ mkdir reports
 	$ python3 -m venv venv
 	$ source venv/bin/activate
 
@@ -56,7 +53,7 @@ and enter below information (choose a secret-key to your liking):
 	$ brew install redis
 	$ brew services start redis
 	
-If you are using Windows just download redis from [here](https://redislabs.com/ebook/appendix-a/a-3-installing-on-windows/a-3-2-installing-redis-on-window/) and follow the instructions.
+If you are using Windows just download redis from [here](https://github.com/microsoftarchive/redis/releases) and follow the instructions.
 
 ## Start a celery worker by following command
 	
@@ -72,7 +69,7 @@ Now open [localhost:5000](http://localhost:5000/) and try to download one of the
 
 
 
-# How to setup the report downloader app on an Ec2 instance for production
+# Setup app on Ec2 instance for production
 
 In case you want to run the app in a production setting you can find the additional setup below.
 If you followed the manual until now, proceed with below steps to setup a server and the necessary services.
