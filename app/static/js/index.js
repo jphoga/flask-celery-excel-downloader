@@ -70,9 +70,9 @@ const update_progress = (status_url, nanobar, status_div) => {
         // Check current status of task
         if (data['state'] != 'PENDING' && data['state'] != 'PROGRESS') {
             // CASE: Task completed
-            if ('result' in data) {
+            if ('filename' in data) {
                 // start download of excel-file
-                downloadFileToBrowser(data['result']);
+                downloadFileToBrowser(data['filename']);
                 setTimeout(function () {
                     
                     // stop bouncing of file-icon on top of page
@@ -93,7 +93,7 @@ const update_progress = (status_url, nanobar, status_div) => {
             // CASE: Error
             else {
                 // show error on screen
-                $(status_div.childNodes[4]).text('Filename: ' + data['filename']);
+                $(status_div.childNodes[4]).text('Error: ' + data['filename']);
             }
         }
         else {
@@ -105,8 +105,8 @@ const update_progress = (status_url, nanobar, status_div) => {
     })
 }
 
-const downloadFileToBrowser = (result) => {
-    const url = `/_downloadfile?filename=${result}`;
+const downloadFileToBrowser = (filename) => {
+    const url = `/_downloadfile?filename=${filename}`;
     fetch(url)
     .then(response => response.blob())
     .then(function(myBlob) {
@@ -115,7 +115,7 @@ const downloadFileToBrowser = (result) => {
         // create temporary link to be able to download file by HTML Api
         const a = document.createElement("a");
         a.href = downloadUrl;
-        a.download = result;
+        a.download = filename;
         document.body.appendChild(a);
         a.click();
         a.remove();

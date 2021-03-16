@@ -4,8 +4,6 @@ from config import Config
 from flask_bootstrap import Bootstrap
 from celery import Celery
 
-# DATABASE = 'C:\sqlite\testdb.db'
-
 bootstrap = Bootstrap()
 
 celery = Celery(__name__, broker=Config.CELERY_BROKER_URL)

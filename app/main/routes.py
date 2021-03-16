@@ -64,7 +64,7 @@ def download_async_report(self, task_length, root_path, today):
     return {'current': 100, 
             'total': 100, 
             'status': 'Download completed!',
-            'result': filename}
+            'filename': filename}
 
 
 @bp.route('/status/<task_id>')
@@ -89,8 +89,7 @@ def taskstatus(task_id):
             'total': task.info.get('total', 1),
             'status': task.info.get('status', '')
         }
-        if 'result' in task.info:
-            response['result'] = task.info['result']
+        # task is completed
         if 'filename' in task.info:
             response['filename'] = task.info['filename']
     else:
