@@ -45,7 +45,7 @@ and enter below information (choose a secret-key to your liking):
 ## Add environment variables
 
 	$ export FLASK_APP=report_downloader.py
-	$ export FLASK_ENV=production
+	$ export FLASK_ENV=development
 
 ## Install and start a redis server for macOS
 
@@ -64,6 +64,11 @@ In case of Windows the eventlet library is needed (this is just for development/
 	$ pip install -U eventlet
     $ celery -A celery-worker.celery worker --loglevel=INFO -P eventlet
 
+## Run the application
+
+On a different terminal run the flask app:
+	
+	$ flask run
 
 Now open [localhost:5000](http://localhost:5000/) and try to download one of the reports.
 
